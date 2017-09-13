@@ -10,12 +10,14 @@ public class DistributeStones extends Rule {
     void apply(Game game, Slot slot) {
         Board board = game.getBoard();
 
-        byte currentCell = board.translateToCell(slot);
-        int stepCount = board.getStoneCountOnCell(currentCell);
+        Slot current = slot;
+        int stepCount = board.getStoneCount(current);
 
-        for (int i=0; i<stepCount; i++){
-            currentCell = board.nextCell(slot.getPlayer(), currentCell);
-            board.addStoneToCell(currentCell);
+        for (int i = 0; i < stepCount; i++) {
+            current = board.nextSlot(slot.getPlayer(), current);
+            board.addStone(current);
         }
+
+        board.emptySlot(slot);
     }
 }

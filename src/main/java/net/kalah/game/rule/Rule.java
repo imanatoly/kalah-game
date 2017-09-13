@@ -9,15 +9,15 @@ public abstract class Rule {
 
     abstract void apply(Game game, Slot slot);
 
-    public Rule setNextRule(Rule next){
+    public Rule setNextRule(Rule next) {
         this.next = next;
         return next;
     }
 
-    public void execute(Game game, Slot slot){
+    public void execute(Game game, Slot slot) {
         apply(game, slot);
-        if (next!=null){
-            next.apply(game, slot);
+        if (next != null) {
+            next.execute(game, slot);
         }
     }
 

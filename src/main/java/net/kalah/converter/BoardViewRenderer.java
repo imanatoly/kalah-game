@@ -1,50 +1,37 @@
 package net.kalah.converter;
 
-import net.kalah.dto.BoardView;
+import net.kalah.dto.BoardDto;
 import net.kalah.game.Board;
-import net.kalah.game.Slot;
 import net.kalah.game.Player;
 
 import static net.kalah.game.Player.A;
-import static net.kalah.game.Player.B;
-import static net.kalah.game.Slot.A_0;
-import static net.kalah.game.Slot.A_1;
-import static net.kalah.game.Slot.A_2;
-import static net.kalah.game.Slot.A_3;
-import static net.kalah.game.Slot.A_4;
-import static net.kalah.game.Slot.A_5;
-import static net.kalah.game.Slot.B_0;
-import static net.kalah.game.Slot.B_1;
-import static net.kalah.game.Slot.B_2;
-import static net.kalah.game.Slot.B_3;
-import static net.kalah.game.Slot.B_4;
-import static net.kalah.game.Slot.B_5;
+import static net.kalah.game.Slot.*;
 
 public class BoardViewRenderer {
 
-    public BoardView render(Board board, Player player){
+    public BoardDto render(Board board, Player player) {
 
-        byte[] playerACells = new byte[]{
-                board.getStoneCountOnSlot(A_0),
-                board.getStoneCountOnSlot(A_1),
-                board.getStoneCountOnSlot(A_2),
-                board.getStoneCountOnSlot(A_3),
-                board.getStoneCountOnSlot(A_4),
-                board.getStoneCountOnSlot(A_5)};
+        int[] playerACells = new int[]{
+                board.getStoneCount(A_0),
+                board.getStoneCount(A_1),
+                board.getStoneCount(A_2),
+                board.getStoneCount(A_3),
+                board.getStoneCount(A_4),
+                board.getStoneCount(A_5)};
 
-        byte[] playerBCells = new byte[]{
-                board.getStoneCountOnSlot(B_0),
-                board.getStoneCountOnSlot(B_1),
-                board.getStoneCountOnSlot(B_2),
-                board.getStoneCountOnSlot(B_3),
-                board.getStoneCountOnSlot(B_4),
-                board.getStoneCountOnSlot(B_5)};
+        int[] playerBCells = new int[]{
+                board.getStoneCount(B_0),
+                board.getStoneCount(B_1),
+                board.getStoneCount(B_2),
+                board.getStoneCount(B_3),
+                board.getStoneCount(B_4),
+                board.getStoneCount(B_5)};
 
-        return BoardView.builder()
-                .opponentKalah(board.getStoneCountOnOpponentsKalah(player))
-                .opponentCells(player.opponent()==A ? playerBCells : playerACells)
-                .ownCells(player==A ? playerACells : playerBCells)
-                .ownKalah(board.getStoneCountOnKalah(player))
+        return BoardDto.builder()
+                .opponentKalah(board.getStoneCount((player.opponent() == A) ? KALAH_A : KALAH_B))
+                .opponentCells(player.opponent() == A ? playerACells : playerBCells)
+                .ownCells(player == A ? playerACells : playerBCells)
+                .ownKalah(board.getStoneCount((player == A) ? KALAH_A : KALAH_B))
                 .build();
     }
 }
