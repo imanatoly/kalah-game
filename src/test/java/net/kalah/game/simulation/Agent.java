@@ -1,47 +1,67 @@
 package net.kalah.game.simulation;
 
-import feign.Client;
 import feign.Feign;
-import feign.Logger;
-import feign.codec.Decoder;
-import feign.codec.Encoder;
+import feign.Response;
 import feign.gson.GsonDecoder;
-import feign.gson.GsonEncoder;
 import feign.slf4j.Slf4jLogger;
+import net.kalah.dto.BoardDto;
+import net.kalah.dto.GameDto;
+import net.kalah.dto.GameStatusDto;
 import net.kalah.dto.PlayerInfo;
-import net.kalah.game.GameStatus;
-import net.kalah.game.Player;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
-import static net.kalah.game.GameStatus.CREATED;
-import static net.kalah.game.GameStatus.ENDED;
-import static net.kalah.game.GameStatus.TURN_A;
-import static net.kalah.game.GameStatus.TURN_B;
-import static net.kalah.game.Player.A;
+import static java.text.MessageFormat.format;
+import static net.kalah.dto.GameStatusDto.ENDED;
+import static net.kalah.dto.GameStatusDto.OPPONENT_TURN;
+import static net.kalah.dto.GameStatusDto.WAITING_OPPONENT;
 
 public class Agent implements Runnable {
 
-    private KalahGameAccessor accessor = Feign.builder().decoder(new GsonDecoder()).target(KalahGameAccessor.class, "http://localhost:8080");
+    private KalahGameAccessor accessor = Feign.builder()
+            .decoder(new GsonDecoder())
+            .logger(new Slf4jLogger())
+            .target(KalahGameAccessor.class, "http://localhost:8080");
+
+    private Random random = new Random();
 
     public void run(){
         PlayerInfo playerInfo = accessor.joinGame();
-        Player mySide = playerInfo.getPlayer();
-        GameStatus myTurn = (mySide==A) ? TURN_A : TURN_B;
-        Random random = new Random();
-        GameStatus status = CREATED;
+        String id = playerInfo.getId();
+        GameStatusDto status = WAITING_OPPONENT;
 
         while (status!=ENDED) {
-            while ((status = accessor.getStatus(playerInfo.getId())) != myTurn) {
-                try {
-                    Thread.sleep(100);
-                } catch (Exception x) {
-                    x.printStackTrace();
+            try {
+                status = accessor.getStatus(id);
+                System.out.println(format("{0} status {1}", id, status));
+                while (status == OPPONENT_TURN) {
+                    status = accessor.getStatus(id);
+                    //System.out.println(format("{0} status {1}", id, status));
+                    try {
+                        Thread.sleep(20);
+                    } catch (Exception x) {
+                        x.printStackTrace();
+                    }
                 }
+                GameDto game = accessor.getGame(id);
+                print(game);
+                int slot = random.nextInt(6);
+                System.out.println(format("{0} Play {1}", id, slot));
+                accessor.play(id, slot);
+            } catch (Exception x){
+
+                //System.out.println("ERR : "+x.getMessage());
             }
-            accessor.play(playerInfo.getId(), random.nextInt(6));
+
         }
+    }
+
+    private void print(GameDto game){
+        BoardDto board = game.getBoard();
+        int[] o = board.getOpponentCells();
+        int[] m = board.getOwnCells();
+        System.out.println(String.format("(%02d) [%02d][%02d][%02d][%02d][%02d][%02d]", board.getOpponentKalah(), o[5], o[4], o[3], o[2], o[1], o[0]));
+        System.out.println(String.format("     [%02d][%02d][%02d][%02d][%02d][%02d] (%02d)", m[0], m[1], m[2], m[3], m[4], m[5], board.getOwnKalah()));
     }
 
 }

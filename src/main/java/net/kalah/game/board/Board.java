@@ -2,7 +2,6 @@ package net.kalah.game.board;
 
 import lombok.Getter;
 import net.kalah.game.Player;
-import net.kalah.game.board.Slot;
 
 import java.util.Arrays;
 

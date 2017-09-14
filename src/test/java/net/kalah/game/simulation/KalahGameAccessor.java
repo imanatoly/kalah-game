@@ -3,8 +3,8 @@ package net.kalah.game.simulation;
 import feign.Param;
 import feign.RequestLine;
 import net.kalah.dto.GameDto;
+import net.kalah.dto.GameStatusDto;
 import net.kalah.dto.PlayerInfo;
-import net.kalah.game.GameStatus;
 import org.springframework.cloud.netflix.feign.FeignClient;
 
 /**
@@ -17,7 +17,7 @@ public interface KalahGameAccessor {
     PlayerInfo joinGame();
 
     @RequestLine("GET /api/kalah/game/{id}/status")
-    GameStatus getStatus(@Param("id") String id);
+    GameStatusDto getStatus(@Param("id") String id);
 
     @RequestLine("GET /api/kalah/game/{id}")
     GameDto getGame(@Param("id") String id);

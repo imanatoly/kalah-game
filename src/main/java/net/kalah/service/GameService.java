@@ -11,6 +11,7 @@ import net.kalah.repository.GameRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static net.kalah.game.GameStatus.WAITING_OPPONENT;
 import static net.kalah.game.Player.A;
 import static net.kalah.game.Player.B;
 
@@ -33,6 +34,7 @@ public class GameService {
         if (currentGame == null) {
             currentGame = gameRegistry.createGame(Constants.EXPERT_GEME_STONE_COUNT);
             result = new PlayerInfo(A, currentGame.getPlayerAId());
+            currentGame.setStatus(WAITING_OPPONENT);
         } else {
             result = new PlayerInfo(B, currentGame.getPlayerBId());
             currentGame.startGame();

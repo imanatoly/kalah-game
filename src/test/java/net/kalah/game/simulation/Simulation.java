@@ -1,12 +1,14 @@
 package net.kalah.game.simulation;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Simulation {
 
     public void run() {
-        Agent a = new Agent();
-        Agent b = new Agent();
-        new Thread(a).run();
-        new Thread(b).run();
+        ExecutorService executor = Executors.newCachedThreadPool();
+        executor.execute(new Agent());
+        executor.execute(new Agent());
     }
 
     public static void main(String[] args) {

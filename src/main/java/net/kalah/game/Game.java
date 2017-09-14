@@ -52,6 +52,10 @@ public class Game {
         } else throw new IllegalArgumentException(format("Player {0} does not belong to this game", playerId));
     }
 
+    public void setStatus(GameStatus status) {
+        this.status = status;
+    }
+
     public byte getScore(Player player) {
         return (player == A) ? playerAScore : playerBScore;
     }
