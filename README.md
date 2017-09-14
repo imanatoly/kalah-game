@@ -32,9 +32,9 @@ $ gradle bootRun
 
 ## Swagger
 
-When you run server, on http://localhost:8080/swagger-ui.html you will see Swagger UI. There you can inspect API.
+When you run server, on http://localhost:8080/swagger-ui.html you will see Swagger UI. There you can inspect and experiemt with API.
 
-![Swagger UI](/../<master/assets/swagger.png?raw=true "Swagger UI")
+![Swagger UI](/../master/assets/swagger.png?raw=true "Swagger UI")
 
 ## TODO
 
