@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.6.RELEASE'
+		springBootVersion = '1.5.7.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -21,6 +21,9 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+    springCloudVersion = 'Dalston.SR3'
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
@@ -28,4 +31,12 @@ dependencies {
     compile('io.springfox:springfox-swagger2:2.7.0')
     compile('io.springfox:springfox-swagger-ui:2.7.0')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.cloud:spring-cloud-starter-feign')
+    testCompile('io.github.openfeign:feign-gson:9.3.1')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }

@@ -1,11 +1,11 @@
 package net.kalah.converter;
 
 import net.kalah.dto.BoardDto;
-import net.kalah.game.Board;
+import net.kalah.game.board.Board;
 import net.kalah.game.Player;
 
 import static net.kalah.game.Player.A;
-import static net.kalah.game.Slot.*;
+import static net.kalah.game.board.Slot.*;
 
 public class BoardViewRenderer {
 

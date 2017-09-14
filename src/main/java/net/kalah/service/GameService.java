@@ -6,7 +6,7 @@ import net.kalah.dto.PlayerInfo;
 import net.kalah.game.Game;
 import net.kalah.game.GameEngine;
 import net.kalah.game.Player;
-import net.kalah.game.Slot;
+import net.kalah.game.board.Slot;
 import net.kalah.repository.GameRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +35,7 @@ public class GameService {
             result = new PlayerInfo(A, currentGame.getPlayerAId());
         } else {
             result = new PlayerInfo(B, currentGame.getPlayerBId());
+            currentGame.startGame();
             currentGame = null;
         }
 
@@ -58,7 +59,7 @@ public class GameService {
 
         Slot slot = Slot.instance(player, cell);
 
-        engine.apply(game, slot);
+        engine.play(game, slot);
 
         return game;
     }

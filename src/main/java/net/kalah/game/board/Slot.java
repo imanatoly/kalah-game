@@ -1,5 +1,7 @@
-package net.kalah.game;
+package net.kalah.game.board;
 
+
+import net.kalah.game.Player;
 
 import java.util.Arrays;
 

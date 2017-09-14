@@ -1,5 +1,6 @@
 package net.kalah.game;
 
+import net.kalah.game.board.Slot;
 import net.kalah.game.rule.*;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +18,9 @@ public class GameEngine {
                 .setNextRule(new EndGame());
     }
 
-    public void apply(Game game, Slot slot) {
+    public void play(Game game, Slot slot) {
         if (game.getTurn() == slot.getPlayer()) {
-            chain.execute(game, slot);
+            chain.execute(game, slot, game.getBoard().getStoneCount(slot));
             game.update();
         } else {
             throw new IllegalArgumentException("Not your turn");

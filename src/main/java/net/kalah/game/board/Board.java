@@ -1,6 +1,8 @@
-package net.kalah.game;
+package net.kalah.game.board;
 
 import lombok.Getter;
+import net.kalah.game.Player;
+import net.kalah.game.board.Slot;
 
 import java.util.Arrays;
 
@@ -9,8 +11,8 @@ import static net.kalah.Constants.MAX_INITIAL_STONE_COUNT;
 import static net.kalah.Constants.MIN_INITIAL_STONE_COUNT;
 import static net.kalah.game.Player.A;
 import static net.kalah.game.Player.B;
-import static net.kalah.game.Slot.KALAH_A;
-import static net.kalah.game.Slot.KALAH_B;
+import static net.kalah.game.board.Slot.KALAH_A;
+import static net.kalah.game.board.Slot.KALAH_B;
 
 /**
  * Board is actually circular, so board data can be kept in array

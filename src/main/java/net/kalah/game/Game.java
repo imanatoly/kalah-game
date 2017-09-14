@@ -2,14 +2,15 @@ package net.kalah.game;
 
 
 import lombok.Getter;
+import net.kalah.game.board.Board;
 import net.kalah.util.IdUtil;
 
 import static java.text.MessageFormat.format;
 import static net.kalah.game.GameStatus.*;
 import static net.kalah.game.Player.A;
 import static net.kalah.game.Player.B;
-import static net.kalah.game.Slot.KALAH_A;
-import static net.kalah.game.Slot.KALAH_B;
+import static net.kalah.game.board.Slot.KALAH_A;
+import static net.kalah.game.board.Slot.KALAH_B;
 
 @Getter
 public class Game {
@@ -37,7 +38,7 @@ public class Game {
         lastUpdate = System.currentTimeMillis();
     }
 
-    public void update() {
+    void update() {
         playerAScore = board.getStoneCount(KALAH_A);
         playerBScore = board.getStoneCount(KALAH_B);
         lastUpdate = System.currentTimeMillis();
@@ -61,7 +62,12 @@ public class Game {
 
     public void switchTurn() {
         turn = (turn == A) ? B : A;
-        status = (turn == A) ? status = TURN_A : TURN_B;
+        status = (turn == A) ? TURN_A : TURN_B;
+    }
+
+    public void startGame() {
+        update();
+        status = TURN_A;
     }
 
     public void endGame() {

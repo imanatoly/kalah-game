@@ -1,13 +1,13 @@
 package net.kalah.game.rule;
 
-import net.kalah.game.Board;
+import net.kalah.game.board.Board;
 import net.kalah.game.Game;
-import net.kalah.game.Slot;
+import net.kalah.game.board.Slot;
 
 public class DistributeStones extends Rule {
 
     @Override
-    void apply(Game game, Slot slot) {
+    void apply(Game game, Slot slot, byte stoneCount) {
         Board board = game.getBoard();
 
         Slot current = slot;

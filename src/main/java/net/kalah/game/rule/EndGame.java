@@ -1,15 +1,15 @@
 package net.kalah.game.rule;
 
-import net.kalah.game.Board;
+import net.kalah.game.board.Board;
 import net.kalah.game.Game;
-import net.kalah.game.Slot;
+import net.kalah.game.board.Slot;
 
-import static net.kalah.game.Slot.*;
+import static net.kalah.game.board.Slot.*;
 
 public class EndGame extends Rule {
 
     @Override
-    public void apply(Game game, Slot slot) {
+    public void apply(Game game, Slot slot, byte stoneCount) {
         Board board = game.getBoard();
 
         byte totalA = (byte) (board.getStoneCount(A_0)
