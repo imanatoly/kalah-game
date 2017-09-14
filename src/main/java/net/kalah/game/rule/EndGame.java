@@ -1,7 +1,7 @@
 package net.kalah.game.rule;
 
-import net.kalah.game.board.Board;
 import net.kalah.game.Game;
+import net.kalah.game.board.Board;
 import net.kalah.game.board.Slot;
 
 import static net.kalah.game.board.Slot.*;

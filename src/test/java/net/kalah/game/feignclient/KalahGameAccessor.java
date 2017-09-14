@@ -1,4 +1,4 @@
-package net.kalah.game.simulation;
+package net.kalah.game.feignclient;
 
 import feign.Param;
 import feign.RequestLine;

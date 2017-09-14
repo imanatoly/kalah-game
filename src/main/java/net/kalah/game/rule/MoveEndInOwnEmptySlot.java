@@ -1,9 +1,9 @@
 package net.kalah.game.rule;
 
 
-import net.kalah.game.board.Board;
 import net.kalah.game.Game;
 import net.kalah.game.Player;
+import net.kalah.game.board.Board;
 import net.kalah.game.board.Slot;
 
 import static net.kalah.game.Player.A;
@@ -18,8 +18,8 @@ public class MoveEndInOwnEmptySlot extends Rule {
         Board board = game.getBoard();
         Player player = slot.getPlayer();
         Slot last = board.calculateLast(slot, stoneCount);
-        if (last.getPlayer() == player && board.getStoneCount(last) == 0) {
-            Slot opposite = board.opposite(slot);
+        if (last != KALAH_A && last != KALAH_B && last.getPlayer() == player && board.getStoneCount(last) == 1) {
+            Slot opposite = board.opposite(last);
             if (player == A) {
                 board.addStone(KALAH_A, board.getStoneCount(opposite));
                 board.addStone(KALAH_A);

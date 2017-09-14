@@ -58,6 +58,10 @@ public class Board {
         return cells[slot.getIndex()];
     }
 
+    public void setStoneCount(Slot slot, byte stoneCount) {
+        cells[slot.getIndex()] = stoneCount;
+    }
+
     public Slot opposite(Slot slot) {
         return Slot.instance(slot.getPlayer().opponent(), 5 - slot.getCell());
     }

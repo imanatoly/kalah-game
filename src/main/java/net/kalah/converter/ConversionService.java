@@ -13,11 +13,11 @@ public class ConversionService {
     private GameToGameStatusConverter gameToGameStatusConverter = new GameToGameStatusConverter();
     private GameStatusToGameStatusDtoConverter gameStatusToGameStatusDtoConverter = new GameStatusToGameStatusDtoConverter();
 
-    public GameDto convert(Game game, String playerId){
+    public GameDto convert(Game game, String playerId) {
         return gameToGameStatusConverter.convert(game, playerId);
     }
 
-    public GameStatusDto convert(GameStatus gameStatus, Player player){
+    public GameStatusDto convert(GameStatus gameStatus, Player player) {
         return gameStatusToGameStatusDtoConverter.convert(gameStatus, player);
     }
 

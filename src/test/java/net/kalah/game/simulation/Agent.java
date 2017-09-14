@@ -1,41 +1,34 @@
 package net.kalah.game.simulation;
 
-import feign.Feign;
-import feign.Response;
-import feign.gson.GsonDecoder;
-import feign.slf4j.Slf4jLogger;
 import net.kalah.dto.BoardDto;
 import net.kalah.dto.GameDto;
 import net.kalah.dto.GameStatusDto;
 import net.kalah.dto.PlayerInfo;
+import net.kalah.game.feignclient.ClientBuilder;
+import net.kalah.game.feignclient.KalahGameAccessor;
 
 import java.util.Random;
 
 import static java.text.MessageFormat.format;
-import static net.kalah.dto.GameStatusDto.ENDED;
-import static net.kalah.dto.GameStatusDto.OPPONENT_TURN;
-import static net.kalah.dto.GameStatusDto.WAITING_OPPONENT;
+import static net.kalah.dto.GameStatusDto.*;
 
 public class Agent implements Runnable {
 
-    private KalahGameAccessor accessor = Feign.builder()
-            .decoder(new GsonDecoder())
-            .logger(new Slf4jLogger())
-            .target(KalahGameAccessor.class, "http://localhost:8080");
+    private KalahGameAccessor gameAccessor = new ClientBuilder().getGameClient();
 
     private Random random = new Random();
 
-    public void run(){
-        PlayerInfo playerInfo = accessor.joinGame();
+    public void run() {
+        PlayerInfo playerInfo = gameAccessor.joinGame();
         String id = playerInfo.getId();
         GameStatusDto status = WAITING_OPPONENT;
 
-        while (status!=ENDED) {
+        while (status != ENDED) {
             try {
-                status = accessor.getStatus(id);
+                status = gameAccessor.getStatus(id);
                 System.out.println(format("{0} status {1}", id, status));
                 while (status == OPPONENT_TURN) {
-                    status = accessor.getStatus(id);
+                    status = gameAccessor.getStatus(id);
                     //System.out.println(format("{0} status {1}", id, status));
                     try {
                         Thread.sleep(20);
@@ -43,20 +36,19 @@ public class Agent implements Runnable {
                         x.printStackTrace();
                     }
                 }
-                GameDto game = accessor.getGame(id);
+                GameDto game = gameAccessor.getGame(id);
                 print(game);
                 int slot = random.nextInt(6);
                 System.out.println(format("{0} Play {1}", id, slot));
-                accessor.play(id, slot);
-            } catch (Exception x){
-
+                gameAccessor.play(id, slot);
+            } catch (Exception x) {
                 //System.out.println("ERR : "+x.getMessage());
             }
 
         }
     }
 
-    private void print(GameDto game){
+    private void print(GameDto game) {
         BoardDto board = game.getBoard();
         int[] o = board.getOpponentCells();
         int[] m = board.getOwnCells();

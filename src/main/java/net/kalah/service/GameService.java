@@ -32,7 +32,7 @@ public class GameService {
     public synchronized PlayerInfo join() {
         PlayerInfo result = null;
         if (currentGame == null) {
-            currentGame = gameRegistry.createGame(Constants.EXPERT_GEME_STONE_COUNT);
+            currentGame = gameRegistry.createGame(Constants.EXPERT_GAME_STONE_COUNT);
             result = new PlayerInfo(A, currentGame.getPlayerAId());
             currentGame.setStatus(WAITING_OPPONENT);
         } else {
