@@ -11,6 +11,6 @@ public class CORSConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/kalah/**");
+        registry.addMapping("/api/kalah/**").allowedOrigins("http://localhost:3000");
     }
 }
